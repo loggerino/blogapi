@@ -16,5 +16,7 @@ router.get('/users/all', userController.allUsers);
 router.get('/users/user/:id', userController.getSingleUser);
 router.post('/users/create', userController.signUp);
 router.post('/posts/post/:postId/comment', protect, commentController.createComment);
+router.put('/comments/:commentId', protect, commentController.updateComment);
+router.delete('/comments/:commentId', protect, commentController.deleteComment);
 
 module.exports = router;
