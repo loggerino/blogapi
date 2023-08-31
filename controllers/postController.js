@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const Post = require('../models/postModel');
 
 exports.allPosts = asyncHandler(async (req, res, next) => {
-    let posts = await Post.find().populate('user', 'username').populate('comments');
+    let posts = await Post.find().populate('user', 'username')//.populate('comments');
 
     if (posts.length > 0) {
         res.status(200).json(posts);
@@ -40,4 +40,28 @@ exports.createPost = [
         const savedPost = await post.save();
         res.status(201).json(savedPost);
     })
-]
+];
+
+exports.updatePost = [
+    body('title', "Input Title").trim().isLength({ min: 1 }).escape(),
+    body('content', "Insert content").trim().isLength({ min: 1 }).escape(),
+    body('tag', "Invalid tag").trim().isLength({ min: 1 }).escape(),
+    body('published', "Invalid published status").isBoolean(),
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const postId = req.params.id;
+        const { title, content, tag, published } = req.body;
+        const updatedPost = await Post.findByIdAndUpdate(
+            postId,
+            { title, content, tag, published },
+            { new: true } 
+        );
+        if (!updatedPost) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+        res.status(200).json(updatedPost);
+    })
+];
