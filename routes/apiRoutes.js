@@ -15,6 +15,6 @@ router.post('/logout', userController.logoutUser);
 router.get('/users/all', userController.allUsers);
 router.get('/users/user/:id', userController.getSingleUser);
 router.post('/users/create', userController.signUp);
-router.post('/posts/post/:id/comment', protect, commentController.createComment);
+router.post('/posts/post/:postId/comment', protect, commentController.createComment);
 
 module.exports = router;
