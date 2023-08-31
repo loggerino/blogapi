@@ -24,15 +24,18 @@ exports.getSinglePost = asyncHandler(async (req, res, next) => {
 exports.createPost = [
     body('title', "Input Title").trim().isLength({ min: 1 }).escape(),
     body('content', "Insert content").trim().isLength({ min: 1 }).escape(),
+    body('tag', "Invalid tag").trim().isLength({ min: 1 }).escape(),
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+        const userId = req.user._id;
         const post = new Post({
             title: req.body.title,
             content: req.body.content,
-            user: req.body._id,
+            user: userId,
+            tag: req.body.tag,
         });
         const savedPost = await post.save();
         res.status(201).json(savedPost);
