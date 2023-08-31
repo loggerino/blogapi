@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const Post = require('../models/postModel');
 
 exports.allPosts = asyncHandler(async (req, res, next) => {
-    let posts = await Post.find().populate('user', 'username')//.populate('comments');
+    let posts = await Post.find().populate('user', 'username').populate('comments');
 
     if (posts.length > 0) {
         res.status(200).json(posts);
@@ -13,7 +13,7 @@ exports.allPosts = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSinglePost = asyncHandler(async (req, res, next) => {
-    const post = await Post.findById(req.params.id).populate('user', 'username');
+    const post = await Post.findById(req.params.id).populate('user', 'username').populate('comments');
     if (post === null) {
         res.status(404).json({ error: "Post not found" });
     } else {

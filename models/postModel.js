@@ -6,7 +6,7 @@ const postSchema = new mongoose.Schema({
     published: { type: Boolean, default: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     timestamp: { type: Date, default: Date.now, required: true },
-    comment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: true }],
+    comment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     tag: [{ type: String, required: true}],
 });
 

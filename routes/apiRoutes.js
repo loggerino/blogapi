@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
 const userController = require('../controllers/userController');
+const commentController = require('../controllers/commentController');
 const protect = require('../middleware/authMiddleware');
 
 router.get('/posts/all', postController.allPosts);
@@ -14,5 +15,6 @@ router.post('/logout', userController.logoutUser);
 router.get('/users/all', userController.allUsers);
 router.get('/users/user/:id', userController.getSingleUser);
 router.post('/users/create', userController.signUp);
+router.post('/posts/post/:id/comment', protect, commentController.createComment);
 
 module.exports = router;
