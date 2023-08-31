@@ -65,3 +65,13 @@ exports.updatePost = [
         res.status(200).json(updatedPost);
     })
 ];
+
+exports.deletePost = asyncHandler(async(req, res, next) => {
+    const post = await Post.findById(req.params.id);
+    if (post === null) {
+        return res.status(404).json({ message: "Post not found" });
+    }
+    await Post.findByIdAndRemove(req.params.id);
+
+    res.status(200).json({ message: "Post deleted successfully" });
+})
