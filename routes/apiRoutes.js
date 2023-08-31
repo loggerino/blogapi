@@ -18,5 +18,7 @@ router.post('/users/create', userController.signUp);
 router.post('/posts/post/:postId/comment', protect, commentController.createComment);
 router.put('/comments/:commentId', protect, commentController.updateComment);
 router.delete('/comments/:commentId', protect, commentController.deleteComment);
+router.get('/comments/:commentId', commentController.getSingleComment);
+router.get('/comments', commentController.allComments);
 
 module.exports = router;

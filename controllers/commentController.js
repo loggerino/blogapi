@@ -69,3 +69,21 @@ exports.deleteComment = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({ message: "Comment deleted successfully" });
 });
+
+exports.getSingleComment = asyncHandler(async (req, res, next) => {
+    const commentId = req.params.commentId;
+    const comment = await Comment.findById(commentId).populate('user', 'username');
+    if (!comment) {
+        res.status(404).json({ message: "Comment not found" });
+    }
+    res.status(200).json(comment);
+})
+
+exports.allComments = asyncHandler(async (req, res, next) => {
+    const comments = await Comment.find().populate('user', 'username');
+    if (comments.length > 0) {
+        res.status(200).json(comments);
+    } else {
+        res.status(400).json({ message: "No comments found" })
+    }
+})
