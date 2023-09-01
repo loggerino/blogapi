@@ -6,12 +6,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const apiRouter =require('./routes/apiRoutes');
+const apiRouter = require('./routes/apiRoutes');
 const connectDB = require('./config/db');
+const cors = require('cors');
 
 connectDB();
 
 var app = express();
+app.use(cors({
+  origin: '*', // for development purpose only, will need to change it later
+  credentials: true
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
