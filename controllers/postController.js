@@ -13,7 +13,14 @@ exports.allPosts = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSinglePost = asyncHandler(async (req, res, next) => {
-    const post = await Post.findById(req.params.id).populate('user', 'username').populate('comments');
+    const post = await Post.findById(req.params.id).populate('user', 'username').populate({
+        path: 'comments',
+        populate: {
+            path: 'user',
+            model: 'User',
+            select: 'username'
+        }
+    });
     if (post === null) {
         res.status(404).json({ error: "Post not found" });
     } else {
