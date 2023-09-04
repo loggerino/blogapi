@@ -21,7 +21,8 @@ exports.createComment = [
             post: postId,
         });
         const savedComment = await comment.save();
-        res.status(201).json(savedComment);
+        const populatedComment = await Comment.populate(savedComment, { path: 'user' });
+        res.status(201).json(populatedComment);
 
         const updatedPost = await Post.findByIdAndUpdate(
             postId,
